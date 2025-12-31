@@ -1,0 +1,23 @@
+{
+  "name": "linkedev",
+  "version": "1.0.0",
+  "description": "linked developers",
+  "keywords": [
+    "javascript",
+    "nodejs",
+    "expressjs",
+    "database"
+  ],
+  "license": "ISC",
+  "author": "Mohammad Sohel",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
