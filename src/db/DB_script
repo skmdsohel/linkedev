@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS users (
+	id bigserial PRIMARY KEY,
+	first_name text NOT NULL,
+	last_name text NOT NULL,
+	email text NOT NULL UNIQUE,
+	password text NOT NULL,
+	gender text CHECK (gender IN ('male', 'female', 'other')),
+	age int CHECK (age >= 0),
+	photo_url text DEFAULT 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkuuYBqyMZAGlnx_EFC90aDiEm3dQQ_88yHENiEKvDYg&s',
+	about text,
+	skills TEXT[] DEFAULT '{}',
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+alter table users
+add column if not exists mobile_number text not null unique
+check (mobile_number ~ '^\+[1-9][0-9]{7,14}$');

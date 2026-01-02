@@ -25,20 +25,21 @@ async function createUserInDB(user) {
   try {
     const { rows } = await pool.query(
       `insert into users
-    (first_name, last_name, email, password, gender, age, photo_url, about, skills)
-    values ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+    (first_name, last_name, email, password, gender, age, photo_url, about, skills, mobile_number)
+    values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
     returning id, first_name, last_name, email
     `,
       [
-        user.firstName,
-        user.lastName,
+        user.first_name,
+        user.last_name,
         user.email,
         user.password,
         user.gender,
         user.age,
-        user.photoUrl,
+        user.photo_url,
         user.about,
         user.skills,
+        user.mobile_number
       ]
     );
     return rows[0];
