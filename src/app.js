@@ -1,23 +1,29 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+
+const dotenv = require("dotenv");
+dotenv.config();
+
+// const {pool} = require('./db/index.js');
+
+const userAuthentication = require('./middlewares/auth');
+const userErrorHandle = require('./middlewares/handleError');
+
+const userRoutes = require('./routes/user.route');
 
 // Middleware to parse JSON bodies
-// app.use(express.json());
+app.use(express.json());
 
-// Sample route
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// Middleware to handle authentication and errors
+app.use('/user', userAuthentication, userErrorHandle, userRoutes);
 
-// test route
-app.get('/test', (req, res) => {
-  res.send('Hello World! from test route');
-});
+
+
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
 });
 
 module.exports = app;
