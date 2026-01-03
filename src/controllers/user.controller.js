@@ -1,41 +1,14 @@
 const { registerUser, getUserByEmail, deleteUserByEmail, updateUserById } = require('../services/user.service');
-const validator = require('validator');
+const validateSignUpData = require('../utills/signUpDataValidator');
 
-const REQUIRED_FIELDS = [
-  "first_name",
-  "last_name",
-  "email",
-  "password",
-  "gender",
-  "age",
-  "mobile_number",
-  "photo_url",
-  "about",
-  "skills"
-];
+
 
 
 async function registerUserController(req, res) {
     console.log("body", req.body);
     try {
-        for (const field of REQUIRED_FIELDS) {
-            if (!req.body[field] || validator.isEmpty(String(req.body[field]))) {
-                return `${field} is required`;
-            }
-        }
-        // validate email safely
-        if (req.body.email && !validator.isEmail(String(req.body.email || ''))) {
-            throw new Error("Invalid Email");
-        }
+        validateSignUpData(req.body);
 
-        // validate photo_url safely
-        if (req.body.photo_url && !validator.isURL(String(req.body.photo_url))) {
-            throw new Error("Invalid photo URL");
-        }
-        // validate mobile_number safely
-        if (req.body.mobile_number && !validator.isMobilePhone(String(req.body.mobile_number), "any", { strictMode: true })) {
-            throw new Error("Invalid phone number");
-        }
         const user = await registerUser(req.body);
         res.status(201).send(user);
     } catch (err) {
