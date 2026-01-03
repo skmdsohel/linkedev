@@ -1,10 +1,15 @@
-function userAuthentication(req, res, next) {
-    let token = "xyz123"
-    if (token === "xyz123") {
-        next();
-    } else {
-        return res.status(401).send({ "error": "Unauthorized" });
-    }
-}   
+const { verifyToken } = require('../utills/jwtToken');
 
-module.exports = userAuthentication;
+
+function userAuthentication(req, res, next) {
+    try {
+        let token = req.cookies.token;
+        const decryptedToken = verifyToken(token);
+        next();
+        console.log(decryptedToken)
+    } catch (error) {
+        return res.status(401).send({ "error": error.message });
+    }
+}
+
+module.exports = { userAuthentication };

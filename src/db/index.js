@@ -49,7 +49,7 @@ async function createUserInDB(user) {
 async function getUserFromDB(email) {
   try {
     const { rows } = await pool.query(
-      `select * from users where email = $1`,
+      `select first_name, last_name, email, password, gender, age, photo_url, about, skills, mobile_number from users where email = $1`,
       [email]
     );
     return rows[0];

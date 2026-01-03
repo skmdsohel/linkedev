@@ -1,5 +1,6 @@
 const { getUserFromDB } = require('../db/index');
 const { comparePassword } = require('../utills/password');
+const { generateToken } = require('../utills/jwtToken');
 
 
 async function loginUserService(email, password) {
@@ -16,8 +17,10 @@ async function loginUserService(email, password) {
             throw new Error("Invalid Password!");
         }
 
+        delete user.password;
+
         const loginResponse = {
-            ...user,
+            "token": generateToken(user),
             message: "Login successful"
         }
 

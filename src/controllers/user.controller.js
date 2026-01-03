@@ -1,5 +1,5 @@
 const { registerUser, getUserByEmail, deleteUserByEmail, updateUserById } = require('../services/user.service');
-const { validateSignUpData } = require('../utills/signUpDataValidator');
+const { validateSignUpData, valiidateEmail } = require('../utills/validator');
 const {encryptPassword} =  require('../utills/password');
 
 
@@ -25,12 +25,10 @@ async function registerUserController(req, res) {
 }
 
 async function getUserController(req, res) {
-    console.log("body", req.body);
     try {
-        if (!req.body || !validator.isEmail(String(req.body.email || ''))) {
-            throw new Error("Invalid Email");
-        }
+        await valiidateEmail(req.body.email);
         const user = await getUserByEmail(req.body.email);
+        delete user.password; // remove password before sending response
         if (!user) return res.status(404).json({ error: 'User not found' });
         res.status(200).json(user);
     } catch (err) {
