@@ -1,16 +1,23 @@
 const { registerUser, getUserByEmail, deleteUserByEmail, updateUserById } = require('../services/user.service');
-const validateSignUpData = require('../utills/signUpDataValidator');
-
-
+const { validateSignUpData } = require('../utills/signUpDataValidator');
+const {encryptPassword} =  require('../utills/password');
 
 
 async function registerUserController(req, res) {
     console.log("body", req.body);
     try {
+
         validateSignUpData(req.body);
+        console.log("password before encryption", req.body.password);
+        await encryptPassword(req.body.password).then((hashedPassword) => {
+            req.body.password = hashedPassword;
+        });
+        console.log("password after encryption", req.body.password);
+
 
         const user = await registerUser(req.body);
         res.status(201).send(user);
+
     } catch (err) {
         console.error("sohel", err);
         res.status(400).json({ error: err && err.message ? err.message : String(err) });

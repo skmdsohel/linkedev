@@ -10,12 +10,16 @@ const userAuthentication = require('./middlewares/auth');
 const userErrorHandle = require('./middlewares/handleError');
 
 const userRoutes = require('./routes/user.route');
+const loginRoutes = require('./routes/login.route');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
 // Middleware to handle authentication and errors
 app.use('/user', userAuthentication, userErrorHandle, userRoutes);
+
+// Middleware to handle authentication and errors
+app.use('/login', loginRoutes);
 
 
 

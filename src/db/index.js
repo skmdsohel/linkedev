@@ -6,7 +6,6 @@ const pool = new Pool({
     : false,
 });
 
-
 // Function to test DB connectivity
 async function connectDB() {
   try {
@@ -19,7 +18,6 @@ async function connectDB() {
     process.exit(1); // stop app if DB is down
   }
 }
-
 
 async function createUserInDB(user) {
   try {
@@ -48,7 +46,6 @@ async function createUserInDB(user) {
   }
 }
 
-
 async function getUserFromDB(email) {
   try {
     const { rows } = await pool.query(
@@ -60,7 +57,6 @@ async function getUserFromDB(email) {
     throw (err);
   }
 }
-
 
 async function deleteUserFromDBByEmail(email) {
   const { rows } = await pool.query(
